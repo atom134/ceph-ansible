@@ -52,6 +52,18 @@
   become: true
 
   tasks:
+  - name: test if ceph-detect-init command exist
+    command: command -v ceph-detect-init
+    changed_when: false
+    failed_when: false
+    register: ceph_detect_init_command
+
+  - name: exit playbook, if ceph-detect-init command does not exist
+    debug:
+      msg: "The ceph-detect-init command is not available, please install it."
+    run_once: true
+    when: ceph_detect_init_command.rc != 0
+
   - name: detect init system
     command: ceph-detect-init
     register: init_system
