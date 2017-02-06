@@ -40,6 +40,7 @@
     rgw_group_name:       rgws
     rbdmirror_group_name: rbd-mirrors
     nfs_group_name:       nfss
+    client_group_name:       clients
 
   hosts:
     - "{{ mon_group_name }}"
@@ -48,6 +49,7 @@
     - "{{ rgw_group_name }}"
     - "{{ rbdmirror_group_name }}"
     - "{{ nfs_group_name }}"
+    - "{{ client_group_name }}"
 
   become: true
 
@@ -60,7 +62,7 @@
 
   - name: exit playbook, if ceph-detect-init command does not exist
     debug:
-      msg: "The ceph-detect-init command is not available, please install it."
+      msg: "The ceph-detect-init command is not available, please install ceph-base."
     run_once: true
     when: ceph_detect_init_command.rc != 0
 
@@ -447,6 +449,7 @@
     rgw_group_name:       rgws
     rbdmirror_group_name: rbd-mirrors
     nfs_group_name:       nfss
+    client_group_name:       clients
 
     # When set to true both groups of packages are purged.
     # This can cause problem with qemu-kvm
@@ -478,6 +481,7 @@
     - "{{ rgw_group_name }}"
     - "{{ rbdmirror_group_name }}"
     - "{{ nfs_group_name }}"
+    - "{{ client_group_name }}"
 
   gather_facts: false # Already gathered previously
 
